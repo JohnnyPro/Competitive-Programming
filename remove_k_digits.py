@@ -5,14 +5,27 @@ class Solution(object):
         :type k: int
         :rtype: str
         """
-        for i in range(k):
-            for j in range(len(num)-1):
-                if int(num[j]) > int(num[j+1]):
-                    num = num[:j] + num[j+1:]
-                    break
-                if j == len(num)-2:
-                    numToReplace = max(num)
-                    num.replace(numToReplace, '0', 1)
-        return str(int(num))
-                    
-                
+        newNum = ''
+        targetlength = len(num) - k
+        
+        if targetlength > 0:
+            if max(num[:len(num)-k]) == min(num[:len(num)-k]):
+                if max(num[:len(num)-k]) <= min(num):
+                    return str(int(num[:len(num)-k]))
+        
+
+        while k > 0:
+            if len(newNum) == targetlength:
+                num = ''
+                break
+            temp = min(num[:k+1])
+            i = num.index(temp)
+            num = num[i+1:]
+            newNum += temp
+            k -= i
+        
+        newNum += num
+        
+        if newNum == '':
+            newNum = '0'
+        return str(int(newNum))
