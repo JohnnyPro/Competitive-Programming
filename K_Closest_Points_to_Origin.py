@@ -9,17 +9,18 @@ class Solution(object):
         :type k: int
         :rtype: List[List[int]]
         """
-        distList = []
-        pointList = []
-        result = []
-        for point in points:
-            distance = self.calcSquareDist(point)
-            distList.append(distance)
-            pointList.append(point)
-        
-        for i in range(k):
-            smallIndex = distList.index(min(distList))
-            result.append(pointList.pop(smallIndex))
-            distList.pop(smallIndex)
+        minPts = points[:k]
+        distances = [self.calcSquareDist(i) for i in minPts]
+        maxDist = max(distances)
 
-        return result
+        for point in points[k:]:
+            distance = self.calcSquareDist(point)
+            if distance < maxDist:
+                index = distances.index(maxDist)
+                print(index)
+                minPts[index] = point
+                distances[index] = distance
+                maxDist = max(distances)
+
+
+        return minPts
